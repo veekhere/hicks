@@ -1,0 +1,29 @@
+<div class="wrapper">
+  <p>{{ (target$ | async) ?? "Click Play Button" }}</p>
+  <div class="inner-wrapper">
+    <div
+      class="container-wrapper"
+      *ngIf="(state$ | async) === gameState.IN_PROCESS"
+    >
+      <div
+        class="container"
+        [ngClass]="{
+          'two-by-two': mode === gameMode.MODE_2x2,
+          'three-by-three': mode === gameMode.MODE_3x3,
+          'four-by-four': mode === gameMode.MODE_4x4
+        }"
+        *ngIf="mode$ | async as mode"
+      >
+        <button
+          *ngFor="let button of visibleButtons$ | async"
+          (click)="click(button.id)"
+        >
+          {{ button.id }}
+        </button>
+      </div>
+    </div>
+    <button class="play-restart" (click)="changeState()">
+      {{ (state$ | async) === gameState.IN_PROCESS ? "Stop" : "Play" }}
+    </button>
+  </div>
+</div>
